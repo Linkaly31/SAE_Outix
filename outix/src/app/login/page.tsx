@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
 
-// Schéma adapté à l'identifiant (plus large qu'un simple email pour correspondre à "Votre nom identifiant")
 const formSchema = z.object({
   identifier: z.string().min(3, { message: "L'identifiant doit contenir au moins 3 caractères." }),
   password: z.string().min(6, { message: "Le mot de passe doit contenir au moins 6 caractères." }),
@@ -35,7 +34,6 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F9F9F4]">
-      {/* 1. Bandeau Vert (Header Enseignant) */}
       <header className="flex justify-between items-center w-full bg-[#3E9F3D] px-6 py-4 md:px-12 text-white">
         <div className="space-y-0.5">
           <h1 className="text-xl md:text-2xl font-bold tracking-tight">Connexion enseignant</h1>
@@ -47,7 +45,6 @@ export default function LoginPage() {
         
       </header>
 
-      {/* 2. Zone Principale centrée */}
       <main className="flex-1 flex items-center justify-center p-4">
         <Card className="w-full max-w-lg rounded-md shadow-sm">
           <CardContent className="pt-8 px-6 pb-6 md:px-12 space-y-6">
@@ -58,7 +55,7 @@ export default function LoginPage() {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               
-              {/* Champ Identifiant */}
+              {/* Identifier area */}
               <div className="space-y-1.5">
                 <Label htmlFor="identifier" className="text-sm font-semibold text-gray-700">
                   Identifiant
@@ -75,7 +72,7 @@ export default function LoginPage() {
                 )}
               </div>
 
-              {/* Champ Mot de passe */}
+              {/* Password Area */}
               <div className="space-y-1.5">
                 <Label htmlFor="password font-semibold text-gray-700">
                   Mot de passe
@@ -88,7 +85,6 @@ export default function LoginPage() {
                     className="w-full h-10 pl-3 pr-10 border border-gray-300 rounded-lg bg-white text-gray-800 placeholder-gray-400 focus-visible:ring-[#008EFC]"
                     {...register("password")}
                   />
-                  {/* Toggle show/hide password */}
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
@@ -102,7 +98,7 @@ export default function LoginPage() {
                 )}
               </div>
 
-              {/* Bouton d'envoi et note */}
+              {/* Send button and text */}
               <div className="space-y-4 pt-2">
                 <Button 
                   type="submit" 

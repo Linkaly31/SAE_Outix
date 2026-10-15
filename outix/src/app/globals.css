@@ -4,6 +4,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* =========
+   SHADCN 
+   ========= */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -126,5 +129,90 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* =========
+   CLIENT STYLE
+   ========= */
+@theme inline {
+  --color-style-green: var(--style-green);
+  --color-style-green-deep: var(--style-green-deep);
+  --color-style-cream: var(--style-cream);
+  --color-style-orange: var(--style-orange);
+
+  --color-action-edit: var(--action-edit);
+  --color-action-delete: var(--action-delete);
+
+  --color-add-text: var(--add-text);
+  --color-add-image: var(--add-image);
+  --color-add-sound: var(--add-sound);
+  --color-add-video: var(--add-video);
+
+  --color-ui-card: var(--ui-card);
+  --color-ui-icon: var(--ui-icon);
+  --color-ui-placeholder: var(--ui-placeholder);
+
+  --font-title: var(--font-family-title);
+  --font-body: var(--font-family-body);
+  --font-button: var(--font-family-button);
+
+  /* Semantic text sizes */
+  --text-title: var(--text-title-size);
+  --text-subtitle: var(--text-subtitle-size);
+  --text-body: var(--text-body-size);
+  --text-label: var(--text-label-size);
+  --text-input-label: var(--text-input-label-size);
+  --text-breadcrumb: var(--text-breadcrumb-size);
+}
+
+:root {
+  /* Style colors */
+  --style-green: #3ba040;
+  --style-green-deep: #2a7a2e; /* header */
+  --style-cream: #f8f8f2;
+  --style-orange: #fe982b;
+
+  /* Action buttons */
+  --action-edit: #1060bc;
+  --action-delete: #d92d3f;
+
+  /* "Add element" buttons */
+  --add-text: #588cf3;
+  --add-image: #fe982b;
+  --add-sound: #b558f3;
+  --add-video: #58f379;
+
+  /* UI */
+  --ui-card: #ffffff;
+  --ui-icon: var(--style-green); /* default, exceptions allowed */
+  --ui-placeholder: #8b968b;
+
+  /* Fonts */
+  --font-family-title: var(--font-montserrat-loaded, "Montserrat"), sans-serif;
+  --font-family-body: var(--font-lato-loaded, "Lato"), sans-serif;
+  --font-family-button: var(--font-inter-loaded, "Inter"), sans-serif;
+
+  /* Font sizes : mobile first */
+  --text-title-size: 15px;
+  --text-subtitle-size: 12px;
+  --text-body-size: 10px;
+  --text-label-size: 12px;
+  --text-input-label-size: 10px;
+  --text-breadcrumb-size: 14px;
+
+  /* Buttons */
+  --button-font-size: 14px;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  :root {
+    --text-title-size: 20px;
+    --text-subtitle-size: 16px;
+    --text-body-size: 14px;
+    --text-label-size: 15px;
+    --text-input-label-size: 12px;
+    --text-breadcrumb-size: 20px;
   }
 }

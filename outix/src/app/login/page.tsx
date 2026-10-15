@@ -34,10 +34,12 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F9F9F4]">
-      <header className="flex justify-between items-center w-full bg-[#3E9F3D] px-6 py-4 md:px-12 text-white">
+      <header className="flex justify-between items-center w-full bg-style-green-deep px-6 py-4 md:px-12">
         <div className="space-y-0.5">
-          <h1 className="text-xl md:text-2xl font-bold tracking-tight">Connexion enseignant</h1>
-          <p className="text-xs md:text-sm font-light text-emerald-100">
+          <h1 className="font-title font-bold text-title text-style-cream">
+            Connexion enseignant
+          </h1>
+          <p className="font-title font-normal text-subtitle text-style-cream">
             L'outil pédagogique pour les profs, par les profs
           </p>
         </div>
@@ -46,25 +48,30 @@ export default function LoginPage() {
       </header>
 
       <main className="flex-1 flex items-center justify-center p-4">
-        <Card className="w-full max-w-lg rounded-md shadow-sm">
+        <Card className="w-full max-w-lg rounded-md shadow-sm bg-ui-card">
           <CardContent className="pt-8 px-6 pb-6 md:px-12 space-y-6">
             
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-[#3E9F3D]">Connexion</h2>
+              <h2 className="font-title font-bold text-title text-style-green">
+                Connexion
+              </h2>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               
               {/* Identifier area */}
               <div className="space-y-1.5">
-                <Label htmlFor="identifier" className="text-sm font-semibold text-gray-700">
+                <Label
+                  htmlFor="identifier"
+                  className="font-body font-bold text-label text-ui-label"
+                >
                   Identifiant
                 </Label>
                 <Input
                   id="identifier"
                   type="text"
-                  placeholder="Votre nom identifiant"
-                  className="w-full h-10 px-3 border border-gray-300 rounded-lg bg-white text-gray-800 placeholder-gray-400 focus-visible:ring-[#008EFC]"
+                  placeholder="Votre identifiant"
+                  className="w-full h-10 px-3 border border-gray-300 rounded-lg bg-white text-gray-800 font-body font-normal text-input-label placeholder:text-ui-placeholder focus-visible:ring-style-green"
                   {...register("identifier")}
                 />
                 {errors.identifier && (
@@ -74,7 +81,10 @@ export default function LoginPage() {
 
               {/* Password Area */}
               <div className="space-y-1.5">
-                <Label htmlFor="password font-semibold text-gray-700">
+                <Label
+                  htmlFor="password"
+                  className="font-body font-bold text-label text-ui-label"
+                >
                   Mot de passe
                 </Label>
                 <div className="relative">
@@ -82,13 +92,13 @@ export default function LoginPage() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Votre mot de passe"
-                    className="w-full h-10 pl-3 pr-10 border border-gray-300 rounded-lg bg-white text-gray-800 placeholder-gray-400 focus-visible:ring-[#008EFC]"
+                    className="w-full h-10 pl-3 pr-10 border border-gray-300 rounded-lg bg-white text-gray-800 font-body font-normal text-input-label placeholder:text-ui-placeholder focus-visible:ring-style-green"
                     {...register("password")}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-ui-placeholder hover:brightness-90"
                   >
                     {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>
@@ -100,14 +110,11 @@ export default function LoginPage() {
 
               {/* Send button and text */}
               <div className="space-y-4 pt-2">
-                <Button 
-                  type="submit" 
-                  className="w-full h-11 text-base font-semibold text-white bg-[#3E9F3D] hover:bg-[#348A33] rounded-lg transition"
-                >
+                <Button type="submit" variant="primary" radius="md" fullWidth className="h-11">
                   Se connecter
                 </Button>
                 
-                <p className="text-xs text-center text-gray-800 tracking-wide mt-2">
+                <p className="font-body font-normal text-body text-center tracking-wide mt-2">
                   Vos identifiants sont utilisés pour accéder à votre espace pédagogique.
                 </p>
               </div>

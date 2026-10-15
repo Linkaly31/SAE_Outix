@@ -7,6 +7,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        // Shadcn
         default: "bg-primary text-primary-foreground hover:bg-primary/80",
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
@@ -17,6 +18,59 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",
+
+        // Client : mains buttons
+        primary: [
+          "bg-style-green text-style-cream",
+          "font-button font-bold text-[length:var(--button-font-size)]",
+          "hover:brightness-95",
+        ],
+        discreet: [
+          "bg-style-cream text-style-green border-2 border-style-green",
+          "font-button font-bold text-[length:var(--button-font-size)]",
+          "hover:brightness-95",
+        ],
+
+        // Secondary button (orange)
+        accent: [
+          "bg-style-orange text-style-cream",
+          "font-button font-bold text-[length:var(--button-font-size)]",
+          "hover:brightness-95",
+        ],
+
+        // Action buttons
+        edit: [
+          "bg-action-edit text-style-cream",
+          "font-button font-bold text-[length:var(--button-font-size)]",
+          "hover:brightness-90",
+        ],
+        delete: [
+          "bg-action-delete text-style-cream",
+          "font-button font-bold text-[length:var(--button-font-size)]",
+          "hover:brightness-90",
+        ],
+
+        // Add element buttons
+        "add-text": [
+          "bg-add-text text-black",
+          "font-body font-normal text-[length:var(--button-font-size)]",
+          "hover:brightness-95",
+        ],
+        "add-image": [
+          "bg-add-image text-black",
+          "font-body font-normal text-[length:var(--button-font-size)]",
+          "hover:brightness-95",
+        ],
+        "add-sound": [
+          "bg-add-sound text-black",
+          "font-body font-normal text-[length:var(--button-font-size)]",
+          "hover:brightness-95",
+        ],
+        "add-video": [
+          "bg-add-video text-black",
+          "font-body font-normal text-[length:var(--button-font-size)]",
+          "hover:brightness-95",
+        ],
       },
       size: {
         default:
@@ -31,10 +85,20 @@ const buttonVariants = cva(
           "size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg",
         "icon-lg": "size-9",
       },
+      // Corner radius : 10px or 20px
+      radius: {
+        md: "rounded-[10px]",
+        lg: "rounded-[20px]",
+      },
+      fullWidth: {
+        true: "w-full",
+        false: "px-10",
+      },
     },
     defaultVariants: {
       variant: "default",
       size: "default",
+      fullWidth: false,
     },
   }
 )
@@ -43,12 +107,14 @@ function Button({
   className,
   variant = "default",
   size = "default",
+  radius,
+  fullWidth = false,
   ...props
 }: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
   return (
     <ButtonPrimitive
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size, radius, fullWidth, className }))}
       {...props}
     />
   )

@@ -79,7 +79,7 @@ export default function LoginPage() {
                   id="identifier"
                   type="text"
                   placeholder="Votre identifiant"
-                  className="h-10 w-full rounded-lg border border-gray-300 bg-white pl-9 pr-3 font-body text-sm font-normal text-gray-800 placeholder:text-ui-placeholder focus-visible:ring-style-green sm:pl-10 sm:text-base"
+                  className="pl-9 pr-3 text-gray-800 sm:pl-10"
                   {...register("identifier")}
                 />
               </div>
@@ -106,7 +106,7 @@ export default function LoginPage() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Votre mot de passe"
-                    className="h-10 w-full rounded-lg border border-gray-300 bg-white pl-9 pr-10 font-body text-sm font-normal text-gray-800 placeholder:text-ui-placeholder focus-visible:ring-style-green sm:pl-10 sm:text-base"
+                    className="pl-9 pr-10 text-gray-800 sm:pl-10"
                     {...register("password")}
                   />
 

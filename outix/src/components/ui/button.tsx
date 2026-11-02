@@ -1,3 +1,5 @@
+import * as React from "react"
+import Link from "next/link"
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
@@ -27,7 +29,7 @@ const buttonVariants = cva(
           "hover:brightness-95",
         ],
         discreet: [
-          "bg-style-cream text-style-green border-2 border-style-green",
+          "bg-white text-style-green-deep border-2 border-style-green-deep",
           "font-button font-bold text-sm sm:text-base",
           "hover:brightness-95",
         ],
@@ -108,23 +110,43 @@ const buttonVariants = cva(
   }
 )
 
+type ButtonProps = ButtonPrimitive.Props &
+  VariantProps<typeof buttonVariants> & {
+    /** Icon displayed before the content */
+    icon?: React.ReactNode;
+    /** If set, the button navigates to this URL (rendered as a Next.js Link) */
+    url?: string;
+  };
+
 function Button({
   className,
   variant = "default",
   size = "default",
   radius,
   fullWidth = false,
+  icon,
+  url,
+  children,
   ...props
-}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+}: ButtonProps) {
+  const linkProps = url
+    ? { render: <Link href={url} />, nativeButton: false }
+    : {}
+
   return (
     <ButtonPrimitive
       data-slot="button"
       className={cn(
         buttonVariants({ variant, size, radius, fullWidth, className })
       )}
+      {...linkProps}
       {...props}
-    />
+    >
+      {icon}
+      {children}
+    </ButtonPrimitive>
   )
 }
 
 export { Button, buttonVariants }
+export type { ButtonProps }

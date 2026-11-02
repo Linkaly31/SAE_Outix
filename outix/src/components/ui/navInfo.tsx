@@ -1,88 +1,70 @@
-import Link from "next/link"
+import type { ComponentProps } from "react"
+import { cn } from "cn"
 import Breadcrumbs from "./breadcrumbs"
-import { Button } from "./button"
+import { Button, type ButtonProps } from "./button"
+import { Input } from "./input"
 
-type NavInfoButton = {
+type NavInfoButton = ButtonProps & {
   label: string;
-  /** If set, the button navigates to this URL */
-  url?: string;
-  /** Used for popups, redirects or any other action */
-  onClick?: () => void;
 };
 
 type Props = {
-  /**
-   * Breadcrumb trail (hidden if missing or empty)
-   */
+  /** Breadcrumb trail (hidden if missing or empty) */
   breadcrumbItems?: Array<{ label: string; url: string }>;
-  /**
-   * Main title (hidden if missing)
-   */
+  /** Main title (hidden if missing) */
   title?: string;
-  /**
-   * Text displayed under the title (hidden if missing)
-   */
+  /** Text displayed under the title (hidden if missing) */
   subtitle?: string;
-  /**
-   * Buttons displayed in the button section (hidden if missing or empty)
-   */
+  /** Single optional input (search bar, filter...), accepts any Input prop */
+  input?: ComponentProps<typeof Input>;
+  /** Buttons: side by side on mobile, stacked on the right from md, accepts any Button prop and a label */
   buttons?: Array<NavInfoButton>;
-  /**
-   * Additional CSS Classes applied to every button
-   * @default ""
-   */
-  buttonClassName?: string;
+  /** Additional CSS classes applied to the root element */
+  className?: string;
 };
 
 function NavInfo({
   breadcrumbItems,
   title,
   subtitle,
+  input,
   buttons,
-  buttonClassName = "",
+  className,
 }: Props) {
   return (
-    <div className="flex flex-col gap-1 text-ui-card sm:gap-2">
-      {breadcrumbItems && breadcrumbItems.length > 0 && (
-        <Breadcrumbs items={breadcrumbItems} />
-      )}
+    <div className={cn("flex flex-col gap-6 bg-style-green-deep px-6 py-8 text-white md:flex-row md:justify-between md:px-10 md:py-10", className)}>
+      {/* Left column */}
+      <div className="flex flex-1 flex-col">
+        {breadcrumbItems && breadcrumbItems.length > 0 && (
+          <Breadcrumbs items={breadcrumbItems} />
+        )}
 
-      {title && (
-        <h1 className="font-title text-xl font-bold sm:text-2xl md:text-4xl">
-          {title}
-        </h1>
-      )}
+        {title && (
+          <h1 className="mt-4 font-title text-3xl font-bold md:text-4xl">{title}</h1>
+        )}
 
-      {subtitle && (
-        <p className="font-body text-sm sm:text-base md:text-lg">
-          {subtitle}
-        </p>
-      )}
+        {subtitle && <p className="mt-1 font-body text-lg">{subtitle}</p>}
 
+        {input && (
+          <div className="mt-6 w-full max-w-2xl">
+            <Input {...input} />
+          </div>
+        )}
+      </div>
+
+      {/* Right column */}
       {buttons && buttons.length > 0 && (
-        <div className="flex flex-wrap gap-2 sm:gap-3">
-          {buttons.map((button) =>
-            button.url ? (
-              <Button
-                key={button.label}
-                variant="accent"
-                className={buttonClassName}
-                render={<Link href={button.url} />}
-                nativeButton={false}
-              >
-                {button.label}
-              </Button>
-            ) : (
-              <Button
-                key={button.label}
-                variant="accent"
-                className={buttonClassName}
-                onClick={button.onClick}
-              >
-                {button.label}
-              </Button>
-            )
-          )}
+        <div className="flex flex-row flex-wrap gap-3 md:flex-col md:gap-5">
+          {buttons.map(({ label, className: buttonClassName, ...button }, index) => (
+            <Button
+              key={`${label}-${index}`}
+              variant="accent"
+              {...button}
+              className={cn("w-auto md:w-full", buttonClassName)}
+            >
+              {label}
+            </Button>
+          ))}
         </div>
       )}
     </div>

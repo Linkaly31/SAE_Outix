@@ -23,53 +23,53 @@ const buttonVariants = cva(
         // Client : mains buttons
         primary: [
           "bg-style-green text-style-cream",
-          "font-button font-bold text-base sm:text-lg",
+          "font-button font-bold text-sm sm:text-base",
           "hover:brightness-95",
         ],
         discreet: [
           "bg-style-cream text-style-green border-2 border-style-green",
-          "font-button font-bold text-base sm:text-lg",
+          "font-button font-bold text-sm sm:text-base",
           "hover:brightness-95",
         ],
 
         // Secondary button (orange)
         accent: [
-          "bg-style-orange text-style-cream",
-          "font-button font-bold text-base sm:text-lg",
+          "bg-style-orange text-black",
+          "font-button font-bold text-sm sm:text-base",
           "hover:brightness-95",
         ],
 
         // Action buttons
         edit: [
           "bg-action-edit text-style-cream",
-          "font-button font-bold text-base sm:text-lg",
+          "font-button font-bold text-sm sm:text-base",
           "hover:brightness-90",
         ],
         delete: [
           "bg-action-delete text-style-cream",
-          "font-button font-bold text-base sm:text-lg",
+          "font-button font-bold text-sm sm:text-base",
           "hover:brightness-90",
         ],
 
         // Add element buttons (maybe delete later)
         "add-text": [
           "bg-add-text text-black",
-          "font-body font-normal text-base sm:text-lg",
+          "font-body font-normal text-sm sm:text-base",
           "hover:brightness-95",
         ],
         "add-image": [
           "bg-add-image text-black",
-          "font-body font-normal text-base sm:text-lg",
+          "font-body font-normal text-sm sm:text-base",
           "hover:brightness-95",
         ],
         "add-sound": [
           "bg-add-sound text-black",
-          "font-body font-normal text-base sm:text-lg",
+          "font-body font-normal text-sm sm:text-base",
           "hover:brightness-95",
         ],
         "add-video": [
           "bg-add-video text-black",
-          "font-body font-normal text-base sm:text-lg",
+          "font-body font-normal text-sm sm:text-base",
           "hover:brightness-95",
         ],
       },
@@ -97,7 +97,7 @@ const buttonVariants = cva(
       },
       fullWidth: {
         true: "w-full",
-        false: "px-10",
+        false: "px-4",
       },
     },
     defaultVariants: {

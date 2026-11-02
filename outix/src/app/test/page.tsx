@@ -1,3 +1,5 @@
+"use client"
+
 import { Header } from "@/components/ui/header"
 import { NavInfo } from "@/components/ui/navInfo"
 
@@ -14,7 +16,10 @@ export default function TestPage() {
           ]}
           title="Test de la page"
           subtitle="Ici on teste les différents composants pour le site"
-/>
+          buttons={[
+            { label: "Page de connexion", url: "/login" }
+          ]}
+        />
       </div>
     </main>
   )

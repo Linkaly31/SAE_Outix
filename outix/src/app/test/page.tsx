@@ -7,7 +7,14 @@ export default function TestPage() {
       <Header />
 
       <div className="bg-[#2a7a2e] min-h-32">
-        <NavInfo />
+        <NavInfo
+          breadcrumbItems={[
+            { label: "Connexion", url: "/login" },
+            { label: "Test", url: "/test" },
+          ]}
+          title="Test de la page"
+          subtitle="Ici on teste les différents composants pour le site"
+/>
       </div>
     </main>
   )

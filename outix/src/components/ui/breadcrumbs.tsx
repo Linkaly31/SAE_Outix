@@ -20,7 +20,7 @@ type Props = {
 export const BreadCrumbs: React.FC<Props> = function ({ items, className = "" }) {
   return (
     <nav className={className}>
-      <ul className="flex flex-row gap-2 flex-wrap font-title text-breadcrumb text-[#FFFFFF]">
+      <ul className="flex flex-row gap-2 flex-wrap font-body text-sm sm:text-base md:text-lg text-[#FFFFFF]">
         {items.map((item, i) => (
           <li key={item.url} className="flex flex-row gap-2">
             {(i + 1) !== items.length ? (

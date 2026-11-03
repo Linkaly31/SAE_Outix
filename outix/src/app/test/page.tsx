@@ -5,6 +5,12 @@ import { Search } from "lucide-react"
 import { Header } from "@/components/ui/header"
 import { NavInfo } from "@/components/ui/navInfo"
 
+const steps = [
+  { label: "Contenu" },
+  { label: "Sélection des questions" },
+  { label: "Aperçu et export" },
+]
+
 export default function TestPage() {
   const [search, setSearch] = useState("")
 
@@ -25,7 +31,7 @@ export default function TestPage() {
           buttons={[
             { label: "Page de connexion", url: "/login" },
             { label: "+ Créer un compte", url: "/register" },
-            { label: "Test", url: "/test", variant: "discreet" }
+            { label: "Test", url: "/test", variant: "discreet" },
           ]}
 
           input={{
@@ -34,6 +40,12 @@ export default function TestPage() {
             value: search,
             onChange: (e) => setSearch(e.target.value),
           }}
+          
+          stepper={
+            { currentStep: 3, 
+              steps 
+            }
+          }
         />
       </div>
     </main>

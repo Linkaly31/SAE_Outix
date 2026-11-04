@@ -36,7 +36,7 @@ function NavInfo({
   className,
 }: Props) {
   return (
-    <div className={cn("grid gap-6 bg-style-green-deep px-6 py-8 text-white md:grid-cols-[1fr_auto] md:gap-y-10 md:p-10", className)}>
+    <div className={cn("grid gap-6 bg-style-green-deep px-6 py-8 pb-[60px] text-white md:grid-cols-[1fr_auto] md:gap-y-10 md:p-10 md:pb-20 lg:pb-[100px]", className)}>
       {/* Left column */}
       <div className="flex min-w-0 flex-col md:col-start-1 md:row-start-1">
         {breadcrumbItems && breadcrumbItems.length > 0 && (

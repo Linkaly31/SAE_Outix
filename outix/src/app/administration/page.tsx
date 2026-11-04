@@ -19,7 +19,7 @@ export default function AdministrationPage() {
 
       <StackingContainer>
         {/* Update the StatCard components with real data later */}
-        <div className="flex flex-wrap items-center justify-center gap-30">
+        <div className="flex flex-wrap items-center justify-center gap-4 px-4 md:gap-6 xl:gap-20">
           <StatCard Icon={Users} color="#1060BC" value={3} label="Comptes" />
           <StatCard Icon={IdCard} color="#B86A00" value={1} label="Visiteurs" />
           <StatCard Icon={GraduationCap} color="#2A7A2E" value={1} label="Professeurs" />

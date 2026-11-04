@@ -53,27 +53,20 @@ const buttonVariants = cva(
           "hover:brightness-90",
         ],
 
-        // Add element buttons (maybe delete later)
-        "add-text": [
-          "bg-add-text text-black",
-          "font-body font-normal text-sm sm:text-base",
-          "hover:brightness-95",
+        // Button rôle
+        admin: [
+          "bg-[#1060BC] text-white",
+          "font-button font-bold text-sm sm:text-base",
         ],
-        "add-image": [
-          "bg-add-image text-black",
-          "font-body font-normal text-sm sm:text-base",
-          "hover:brightness-95",
+        teacher: [
+          "bg-[#2A7A2E] text-white",
+          "font-button font-bold text-sm sm:text-base",
         ],
-        "add-sound": [
-          "bg-add-sound text-black",
-          "font-body font-normal text-sm sm:text-base",
-          "hover:brightness-95",
+        visitor: [
+          "bg-[#FE982B] text-white",
+          "font-button font-bold text-sm sm:text-base",
         ],
-        "add-video": [
-          "bg-add-video text-black",
-          "font-body font-normal text-sm sm:text-base",
-          "hover:brightness-95",
-        ],
+        
       },
       size: {
         default: "min-h-9 py-2 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",

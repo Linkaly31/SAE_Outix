@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import { Search } from "lucide-react"
-import { Header } from "@/components/ui/header"
-import { NavInfo } from "@/components/ui/navInfo"
+import { Header } from "@/components/headers/header"
+import { NavInfo } from "@/components/nav-info/navInfo"
 
 const steps = [
   { label: "Contenu" },

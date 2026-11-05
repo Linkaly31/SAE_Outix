@@ -1,11 +1,17 @@
-import { AdminHeader } from "@/components/ui/adminHeader"
-import { NavInfo } from "@/components/ui/navInfo"
+"use client"
+
+import { useState } from "react"
+import { AdminHeader } from "@/components/headers/adminHeader"
+import { NavInfo } from "@/components/nav-info/navInfo"
 import { StatCard } from "@/components/ui/statCard"
 import { StackingContainer } from "@/components/ui/stackingContainer"
-import { UserList } from "@/components/ui/userList"
+import { UserList } from "@/components/administration/userList"
+import { CreateAccountModal } from "@/components/modals/createAccountModal"
 import { UserRoundPlus, Users, IdCard, GraduationCap } from "lucide-react"
 
 export default function AdministrationPage() {
+  const [createModalOpen, setCreateModalOpen] = useState(false)
+
   return (
     <main className="min-h-screen bg-[#F9F9F4]">
       <AdminHeader />
@@ -14,7 +20,7 @@ export default function AdministrationPage() {
         subtitle="Gérez les comptes utilisateurs d'Outix et leurs rôles"
         
         buttons={[
-          { icon: <UserRoundPlus />, label: "Créer un compte", url: "" }
+          { icon: <UserRoundPlus />, label: "Créer un compte", onClick: () => setCreateModalOpen(true)}
         ]}
       />
 
@@ -32,6 +38,14 @@ export default function AdministrationPage() {
           </div>
         </div>
       </StackingContainer>
+
+      <CreateAccountModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        onSubmit={async (data) => {
+          console.log("Compte à créer :", data)
+        }}
+      />
     </main>
   )
 }

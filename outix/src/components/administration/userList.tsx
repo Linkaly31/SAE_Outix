@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from "react"
@@ -22,7 +21,7 @@ export type Account = {
   role: keyof typeof roleVariants
 }
 
-// Données temporaires
+// Temporary data
 const initialAccounts: Account[] = [
   { name: "Marie Dupont", username: "mdupont", role: "Admin" },
   { name: "Alexandre Dumas", username: "adumas", role: "Professeur" },
@@ -100,24 +99,25 @@ export function UserList() {
         />
 
         <div className="mt-6">
-          <table className="w-full text-left font-body">
-            <thead>
+          <table className="w-full text-left font-body md:table-fixed">
+            <thead className="hidden md:table-header-group">
               <tr>
                 <th className="pb-4 font-bold">Utilisateurs</th>
-                <th className="pb-4 text-center font-bold">Rôle</th>
-                <th className="pb-4 text-center font-bold">Action</th>
+                <th className="w-64 pb-4 text-center font-bold">Rôle</th>
+                <th className="w-40 pb-4 text-center font-bold">Action</th>
               </tr>
             </thead>
 
             <tbody>
+              {/* Below md, each row is a grid : user on top, role and actions below */}
               {pageAccounts.map((account) => (
-                <tr key={account.username}>
-                  <td className="py-3">
+                <tr key={account.username} className="grid grid-cols-[1fr_auto] items-center md:table-row">
+                  <td className="col-span-2 pb-2 pt-4 md:py-3 md:pr-4">
                     <p>{account.name}</p>
                     <p className="text-sm">{account.username}</p>
                   </td>
 
-                  <td className="py-3 text-center">
+                  <td className="pb-3 md:py-3 md:text-center">
                     <Button
                       variant={roleVariants[account.role]}
                       className="w-30"
@@ -126,8 +126,8 @@ export function UserList() {
                     </Button>
                   </td>
 
-                  <td className="py-3">
-                    <div className="flex justify-center gap-8 text-[#2A7A2E]">
+                  <td className="pb-3 md:py-3">
+                    <div className="flex justify-center gap-4 text-[#2A7A2E] md:gap-8">
                       <button
                         type="button"
                         aria-label={`Modifier ${account.name}`}

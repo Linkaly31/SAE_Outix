@@ -27,10 +27,10 @@ export default function AdministrationPage() {
       <StackingContainer>
         <div className="mx-auto w-full max-w-[1060px] px-4 pb-10">
           {/* Update the StatCard components with real data later */}
-          <div className="flex flex-wrap items-center justify-center gap-4 xl:justify-between">
-            <StatCard Icon={Users} color="#1060BC" value={3} label="Comptes" />
-            <StatCard Icon={IdCard} color="#B86A00" value={1} label="Visiteurs" />
-            <StatCard Icon={GraduationCap} color="#2A7A2E" value={1} label="Professeurs" />
+          <div className="flex flex-wrap justify-center gap-6 lg:grid lg:grid-cols-3">
+            <StatCard Icon={Users} color="#2A7A2E" value={2} label="Classes suivies" />
+            <StatCard Icon={IdCard} color="#1060BC" value={3} label="Cours aujourd'hui" />
+            <StatCard Icon={GraduationCap} color="#B86A00" value={2} label="Favoris" />
           </div>
 
           <div className="mt-10">

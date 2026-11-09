@@ -76,14 +76,16 @@ export default function HomePage() {
                   {followedClasses.map((item) => (
                     <li
                       key={item.name}
-                      className="flex flex-wrap items-center justify-between gap-4 rounded-lg bg-[#FFFFFF] p-4"
+                      className="flex flex-wrap items-center justify-between gap-4 rounded-lg bg-[#F9F9F4] p-4"
                     >
                       <div>
                         <p className="font-title font-bold">{item.name}</p>
                         <p className="font-body text-sm">{item.detail}</p>
                       </div>
 
-                      
+                      <Button variant="discreet" size="sm" className="shrink-0">
+                        Voir le suivi
+                      </Button>
                     </li>
                   ))}
                 </ul>

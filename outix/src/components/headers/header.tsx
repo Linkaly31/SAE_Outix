@@ -6,7 +6,7 @@ import { House, Library, Puzzle, Users, Search, Menu, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
 
 const navItems = [
-  { href: "/", label: "Accueil", Icon: House },
+  { href: "/accueil", label: "Accueil", Icon: House },
   { href: "/iwi", label: "IWI", Icon: Library },
   { href: "/activites", label: "Activités", Icon: Puzzle },
   { href: "/classes", label: "Mes classes", Icon: Users },

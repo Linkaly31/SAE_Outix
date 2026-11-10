@@ -97,7 +97,7 @@ export function ModifyAccountModal({ account, onClose, onSave }: ModifyAccountMo
                   <SelectValue placeholder="Choisir un rôle pour le compte" />
                 </SelectTrigger>
 
-                <SelectContent align="start" sideOffset={4} className="w-[calc(var(--anchor-width)-2.5rem)] translate-x-10">
+                <SelectContent align="start" sideOffset={4} alignItemWithTrigger={false} className="w-[calc(var(--anchor-width)-2.5rem)] translate-x-10">
                   <SelectItem value="Professeur" className="font-body text-sm sm:text-base">
                     Professeur
                   </SelectItem>

@@ -100,11 +100,10 @@ export function CreateAccountModal({ open, onClose, onSubmit }: CreateAccountMod
                     <SelectValue placeholder="Choisir un rôle pour le compte" />
                   </SelectTrigger>
 
-                  <SelectContent align="start" sideOffset={4} className="w-[calc(var(--anchor-width)-2.5rem)] translate-x-10">
+                  <SelectContent align="start" sideOffset={4} alignItemWithTrigger={false} className="min-w-0 w-[calc(var(--anchor-width)-2.5rem)] translate-x-10">
                     <SelectItem value="Professeur" className="font-body text-sm sm:text-base">
                       Professeur
                     </SelectItem>
-
                     <SelectItem value="Visiteur" className="font-body text-sm sm:text-base">
                       Visiteur
                     </SelectItem>

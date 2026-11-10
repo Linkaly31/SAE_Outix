@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap text-center transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex shrink-0 items-center justify-center rounded-lg whitespace-nowrap border border-transparent text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
@@ -25,52 +25,58 @@ const buttonVariants = cva(
         // Client : mains buttons
         primary: [
           "bg-style-green text-style-cream",
-          "font-button font-bold text-sm sm:text-base",
+          "font-button font-bold text-xs sm:text-sm lg:text-base",
           "hover:brightness-95",
         ],
         discreet: [
           "bg-white text-style-green-deep border-2 border-style-green-deep",
-          "font-button font-bold text-sm sm:text-base",
+          "font-button font-bold text-xs sm:text-sm lg:text-base",
           "hover:brightness-95",
         ],
 
         discreetDashed: [
           "bg-[#F8F8F2] text-style-green-deep border-2 border-dashed! border-style-green-deep!",
-          "font-button font-bold text-sm sm:text-base",
+          "font-button font-bold text-xs sm:text-sm lg:text-base",
           "hover:brightness-95",
         ],
 
         // Secondary button (orange)
         accent: [
           "bg-style-orange text-black",
-          "font-button font-bold text-sm sm:text-base",
+          "font-button font-bold text-xs sm:text-sm lg:text-base",
+          "hover:brightness-95",
+        ],
+
+        orange: [
+          "bg-white text-[#FE982B]",
+          "font-button font-bold text-xs sm:text-sm lg:text-base",
           "hover:brightness-95",
         ],
 
         // Action buttons
         edit: [
           "bg-action-edit text-style-cream",
-          "font-button font-bold text-sm sm:text-base",
+          "font-button font-bold text-xs sm:text-sm lg:text-base",
           "hover:brightness-90",
         ],
         delete: [
           "bg-action-delete text-style-cream",
-          "font-button font-bold text-sm sm:text-base",
+          "font-button font-bold text-xs sm:text-sm lg:text-base",
           "hover:brightness-90",
         ],
 
         // Button rôle
         admin: [
           "bg-[#1060BC] text-white",
-          "font-button font-bold text-sm sm:text-base",
+          "font-button font-bold text-xs sm:text-sm lg:text-base",
         ],
         teacher: [
           "bg-[#2A7A2E] text-white",
-          "font-button font-bold text-sm sm:text-base",
+          "font-button font-bold text-xs sm:text-sm lg:text-base",
         ],
         visitor: [
           "bg-[#FE982B] text-white",
-          "font-button font-bold text-sm sm:text-base",
+          "font-button font-bold text-xs sm:text-sm lg:text-base",
         ],
 
       },

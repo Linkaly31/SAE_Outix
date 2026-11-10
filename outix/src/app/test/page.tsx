@@ -56,25 +56,37 @@ export default function TestPage() {
           Salut
         </Button>
 
-        <Badge variant="default">
+        <Button variant="primary">
           Salut
-        </Badge>
+        </Button>
 
-        <Badge variant="green">
+        <Button variant="default">
           Salut
-        </Badge>
+        </Button>
 
-        <Badge variant="blue">
+        <Button variant="outline">
           Salut
-        </Badge>
+        </Button>
 
-        <Badge variant="orange">
+        <Button variant="destructive">
           Salut
-        </Badge>
+        </Button>
 
-        <Badge variant="red">
+        <Button variant="secondary">
           Salut
-        </Badge>
+        </Button>
+
+        <Button variant="ghost">
+          Salut
+        </Button>
+
+        <Button variant="accent">
+          Salut
+        </Button>
+
+        <Button variant="discreet">
+          Salut
+        </Button>
       </div>
     </main>
   )

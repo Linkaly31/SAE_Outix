@@ -4,6 +4,7 @@ import { StackingContainer } from "@/components/ui/stackingContainer";
 import { StatCard } from "@/components/ui/statCard";
 import { Button } from "@/components/ui/button";
 import { Book, Calendar, School, Star, ArrowRight, Library, Puzzle } from "lucide-react";
+import Link from "next/link";
 
 // Temporary data
 const followedClasses = [
@@ -46,11 +47,11 @@ export default function HomePage() {
               </section>
 
               <div className="grid gap-6 sm:grid-cols-2">
-                <div className="rounded-xl bg-[#2A7A2E]/40 p-6">
+                <Link href="/facultes" className="rounded-xl bg-[#2A7A2E]/40 p-6">
                   <Library size={40} />
                   <h2 className="mt-3 font-title text-2xl font-bold">IWI</h2>
                   <p className="mt-2 font-body text-sm">Cours : facultés, départements, chapitres.</p>
-                </div>
+                </Link>
 
                 <div className="rounded-xl bg-[#B86A00]/40 p-6">
                   <Puzzle size={40} />

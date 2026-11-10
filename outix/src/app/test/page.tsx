@@ -5,6 +5,7 @@ import { Search } from "lucide-react"
 import { Header } from "@/components/headers/header"
 import { NavInfo } from "@/components/nav-info/navInfo"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/tag"
 
 const steps = [
   { label: "Contenu" },
@@ -50,10 +51,30 @@ export default function TestPage() {
           }
         />
       </div>
-      <div className="mx-auto p-10">
+      <div className="mx-auto p-10 bg-white">
         <Button variant="discreetDashed">
           Salut
         </Button>
+
+        <Badge variant="default">
+          Salut
+        </Badge>
+
+        <Badge variant="green">
+          Salut
+        </Badge>
+
+        <Badge variant="blue">
+          Salut
+        </Badge>
+
+        <Badge variant="orange">
+          Salut
+        </Badge>
+
+        <Badge variant="red">
+          Salut
+        </Badge>
       </div>
     </main>
   )

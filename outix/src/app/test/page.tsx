@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Search } from "lucide-react"
 import { Header } from "@/components/headers/header"
 import { NavInfo } from "@/components/nav-info/navInfo"
+import { Button } from "@/components/ui/button"
 
 const steps = [
   { label: "Contenu" },
@@ -40,13 +41,19 @@ export default function TestPage() {
             value: search,
             onChange: (e) => setSearch(e.target.value),
           }}
-          
+
           stepper={
-            { currentStep: 3, 
-              steps 
+            {
+              currentStep: 3,
+              steps
             }
           }
         />
+      </div>
+      <div className="mx-auto p-10">
+        <Button variant="discreetDashed">
+          Salut
+        </Button>
       </div>
     </main>
   )

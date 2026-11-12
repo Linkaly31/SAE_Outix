@@ -6,6 +6,7 @@ import { Header } from "@/components/headers/header"
 import { NavInfo } from "@/components/nav-info/navInfo"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/tag"
+import { QuantitySelector } from "@/components/ui/quantitySelector"
 
 const steps = [
   { label: "Contenu" },
@@ -23,7 +24,7 @@ export default function TestPage() {
       <div className="bg-[#2a7a2e] min-h-32">
         <NavInfo
           breadcrumbItems={[
-            { label: "Connexion", url: "/login" },
+            { label: "Connexion", url: "/connexion" },
             { label: "Test", url: "/test" },
           ]}
 
@@ -87,6 +88,8 @@ export default function TestPage() {
         <Button variant="discreet">
           Salut
         </Button>
+          
+        <QuantitySelector />
       </div>
     </main>
   )

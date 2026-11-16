@@ -32,8 +32,8 @@ export const utilisateur = mysqlTable('utilisateur', {
   nom_utilisateur: varchar({ length: 100 }).notNull(),
   mdp: varchar({ length: 255 }).notNull(),
   mail: varchar({ length: 255 }).notNull().unique(),
-  role: mysqlEnum(['professeur', 'etudiant', 'admin'])
-    .default('etudiant')
+  role: mysqlEnum(['professeur', 'visiteur', 'admin'])
+    .default('visiteur')
     .notNull(),
   id_etablissement: int().references(() => etablissement.id, {
     onDelete: 'set null',

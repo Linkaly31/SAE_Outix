@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -8,27 +9,40 @@ import { Eye, EyeOff, User, Lock, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { authClient } from "@/lib/auth/auth-client"
+import { authErrorMessage } from "@/lib/auth/auth-errors"
 
 const formSchema = z.object({
   identifier: z.string().min(3, { message: "L'identifiant doit contenir au moins 3 caractères." }),
-  password: z.string().min(6, { message: "Le mot de passe doit contenir au moins 6 caractères." }),
+  password: z.string().min(6, { message: "Le mot de passe doit contenir au moins 8 caractères." }),
 })
 
 type LoginForm = z.infer<typeof formSchema>
 
 export default function LoginPage() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
+  const [serverError, setServerError] = useState("")
 
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>({
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginForm>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      identifier: "",
-      password: "",
-    }
   })
 
-  function onSubmit(values: LoginForm) {
-    console.log("Tentative de connexion avec :", values)
+  async function onSubmit(values: LoginForm) {
+    setServerError("")
+
+    const { data, error } = await authClient.signIn.username({
+      username: values.identifier.trim().toLowerCase(),
+      password: values.password,
+    })
+
+    if (error) {
+      setServerError(authErrorMessage(error))
+      return
+    }
+
+    router.push(data.user.role === "admin" ? "/administration" : "/accueil")
+    router.refresh()
   }
 
   return (
@@ -85,7 +99,7 @@ export default function LoginPage() {
               </div>
 
               {errors.identifier && (
-                <p className="mt-1 text-xs font-medium text-red-500">{errors.identifier.message}</p>
+                <p className="mt-1 text-xs font-body font-bold text-[#D92D3F]">{errors.identifier.message}</p>
               )}
             </div>
 
@@ -114,11 +128,10 @@ export default function LoginPage() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     aria-label={
-                      showPassword
-                        ? "Masquer le mot de passe"
-                        : "Afficher le mot de passe"
+                      showPassword 
+                      ? "Masquer le mot de passe" 
+                      : "Afficher le mot de passe"
                     }
-                    aria-pressed={showPassword}
                     className="absolute inset-y-0 right-0 flex items-center pr-3 text-ui-placeholder hover:brightness-90"
                   >
                     {showPassword ? <EyeOff className="h-4 w-4 sm:h-5 sm:w-5" /> : <Eye className="h-4 w-4 sm:h-5 sm:w-5" />}
@@ -126,7 +139,7 @@ export default function LoginPage() {
                 </div>
 
                 {errors.password && (
-                  <p className="mt-1 text-xs font-medium text-red-500">{errors.password.message}</p>
+                  <p className="mt-1 text-xs font-body font-bold text-[#D92D3F]">{errors.password.message}</p>
                 )}
               </div>
 
@@ -142,7 +155,13 @@ export default function LoginPage() {
 
             {/* Send button and text */}
             <div className="space-y-3 pt-1 sm:space-y-4 sm:pt-2">
-              <Button type="submit" variant="primary" radius="md" fullWidth className="h-11 gap-2">
+              {serverError && (
+                <p role="alert" className="text-center font-body text-sm font-bold text-[#D92D3F]">
+                  {serverError}
+                </p>
+              )}
+
+              <Button type="submit" variant="primary" radius="md" fullWidth disabled={isSubmitting} className="h-11 gap-2">
                 Se connecter
                 <ArrowRight className="h-6 w-6 stroke-[3]" />
               </Button>

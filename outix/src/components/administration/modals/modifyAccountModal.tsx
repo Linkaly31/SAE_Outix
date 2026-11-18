@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useEffect, useState } from "react"
@@ -13,7 +12,7 @@ import type { Account } from "@/components/administration/userList"
 type ModifyAccountModalProps = {
   account: Account | null
   onClose: () => void
-  onSave: (updatedAccount: Account) => void
+  onSave: (updatedAccount: Account) => Promise<void>
 }
 
 export function ModifyAccountModal({ account, onClose, onSave }: ModifyAccountModalProps) {
@@ -21,6 +20,8 @@ export function ModifyAccountModal({ account, onClose, onSave }: ModifyAccountMo
     username: "",
     role: "Visiteur" as Account["role"],
   })
+  const [error, setError] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     if (account) {
@@ -28,19 +29,28 @@ export function ModifyAccountModal({ account, onClose, onSave }: ModifyAccountMo
         username: account.username,
         role: account.role,
       })
+      setError("")
     }
   }, [account])
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (!account) return
 
-    onSave({
-      ...account,
-      username: form.username,
-      role: form.role,
-    })
+    setError("")
+    setIsSubmitting(true)
 
-    onClose()
+    try {
+      await onSave({
+        ...account,
+        username: form.username,
+        role: form.role,
+      })
+      onClose()
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Une erreur est survenue. Veuillez réessayer.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -109,9 +119,16 @@ export function ModifyAccountModal({ account, onClose, onSave }: ModifyAccountMo
             </div>
           </div>
 
+          {error && (
+            <p role="alert" className="text-center font-body text-sm font-bold text-red-500">
+              {error}
+            </p>
+          )}
+
           <Button
             variant="primary"
             className="w-full"
+            disabled={isSubmitting}
             onClick={handleSubmit}
           >
             Enregistrer les modifications

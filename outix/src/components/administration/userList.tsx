@@ -4,87 +4,50 @@ import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Search, Trash2, UserPen, ChevronLeft, ChevronRight } from "lucide-react"
-import { DeleteAccountModal } from "@/components/modals/deleteAccountModal"
-import { ModifyAccountModal } from "@/components/modals/modifyAccountModal"
+import { DeleteAccountModal } from "@/components/administration/modals/deleteAccountModal"
+import { ModifyAccountModal } from "@/components/administration/modals/modifyAccountModal"
+import { deleteAccount, updateAccount } from "@/lib/accounts"
 
 const ACCOUNTS_PER_PAGE = 10
 
 const roleVariants = {
   Admin: "admin",
-  Professeur: "teacher",
+  Professeur: "professor",
   Visiteur: "visitor",
 } as const
 
 export type Account = {
+  id: string
   name: string
   username: string
   role: keyof typeof roleVariants
 }
 
-// Temporary data
-const initialAccounts: Account[] = [
-  { name: "Marie Dupont", username: "mdupont", role: "Admin" },
-  { name: "Alexandre Dumas", username: "adumas", role: "Professeur" },
-  { name: "John Doe", username: "jdoe", role: "Visiteur" },
-  { name: "Sophie Martin", username: "smartin", role: "Professeur" },
-  { name: "Lucas Bernard", username: "lbernard", role: "Admin" },
-  { name: "Emma Petit", username: "epetit", role: "Professeur" },
-  { name: "Hugo Robert", username: "hrobert", role: "Admin" },
-  { name: "Chloé Richard", username: "crichard", role: "Visiteur" },
-  { name: "Louis Durand", username: "ldurand", role: "Professeur" },
-  { name: "Léa Moreau", username: "lmoreau", role: "Visiteur" },
-  { name: "Nathan Simon", username: "nsimon", role: "Professeur" },
-  { name: "Manon Laurent", username: "mlaurent", role: "Visiteur" },
-  { name: "Thomas Lefebvre", username: "tlefebvre", role: "Admin" },
-  { name: "Camille Michel", username: "cmichel", role: "Visiteur" },
-  { name: "Enzo Garcia", username: "egarcia", role: "Professeur" },
-  { name: "Inès David", username: "ides", role: "Visiteur" },
-  { name: "Jules Bertrand", username: "jbertrand", role: "Professeur" },
-  { name: "Sarah Roux", username: "sroux", role: "Visiteur" },
-  { name: "Maxime Vincent", username: "mvincent", role: "Admin" },
-  { name: "Laura Fournier", username: "lfournier", role: "Professeur" },
-  { name: "Paul Morel", username: "pmorel", role: "Visiteur" },
-  { name: "Julie Girard", username: "jgirard", role: "Professeur" },
-  { name: "Antoine Andre", username: "aandre", role: "Visiteur" },
-  { name: "Clara Lefevre", username: "clefevre", role: "Professeur" },
-  { name: "Mathis Mercier", username: "mmercier", role: "Visiteur" },
-]
+type UserListProps = {
+  accounts: Account[]
+  onChanged: () => Promise<void>
+}
 
-export function UserList() {
-  const [accounts, setAccounts] = useState<Account[]>(initialAccounts)
+export function UserList({ accounts, onChanged }: UserListProps) {
   const [selectedAccount, setSelectedAccount] = useState<Account | null>(null)
   const [editingAccount, setEditingAccount] = useState<Account | null>(null)
   const [page, setPage] = useState(1)
 
   const totalPages = Math.ceil(accounts.length / ACCOUNTS_PER_PAGE)
-  const start = (page - 1) * ACCOUNTS_PER_PAGE
+
+  // Stays valid when the last account of a page is deleted
+  const currentPage = Math.min(page, Math.max(totalPages, 1))
+  const start = (currentPage - 1) * ACCOUNTS_PER_PAGE
   const pageAccounts = accounts.slice(start, start + ACCOUNTS_PER_PAGE)
 
-  function handleDelete(account: Account) {
-    const updatedAccounts = accounts.filter(
-      (item) => item.username !== account.username
-    )
-
-    setAccounts(updatedAccounts)
-    setSelectedAccount(null)
-
-    const newTotalPages = Math.ceil(updatedAccounts.length / ACCOUNTS_PER_PAGE)
-
-    if (page > newTotalPages && newTotalPages > 0) {
-      setPage(newTotalPages)
-    }
+  async function handleDelete(account: Account) {
+    await deleteAccount(account.id)
+    await onChanged()
   }
 
-  function handleUpdate(updatedAccount: Account) {
-    setAccounts((prev) =>
-      prev.map((account) =>
-        account.username === editingAccount?.username
-          ? updatedAccount
-          : account
-      )
-    )
-
-    setEditingAccount(null)
+  async function handleUpdate(updatedAccount: Account) {
+    await updateAccount(updatedAccount)
+    await onChanged()
   }
 
   return (
@@ -109,9 +72,12 @@ export function UserList() {
             </thead>
 
             <tbody>
-              {/* Below md, each row is a grid : user on top, role and actions below */}
+              {/* Below md, each row is a grid: user on top, role and actions below */}
               {pageAccounts.map((account) => (
-                <tr key={account.username} className="grid grid-cols-[1fr_auto] items-center md:table-row">
+                <tr
+                  key={account.id}
+                  className="grid grid-cols-[1fr_auto] items-center md:table-row"
+                >
                   <td className="col-span-2 pb-2 pt-4 md:py-3 md:pr-4">
                     <p>{account.name}</p>
                     <p className="text-sm">{account.username}</p>
@@ -128,18 +94,24 @@ export function UserList() {
 
                   <td className="pb-3 md:py-3">
                     <div className="flex justify-center gap-4 text-[#2A7A2E] md:gap-8">
+                      {/* Modify button */}
                       <button
                         type="button"
                         aria-label={`Modifier ${account.name}`}
+                        disabled={account.role === "Admin"}
                         onClick={() => setEditingAccount(account)}
+                        className="disabled:cursor-not-allowed disabled:opacity-30"
                       >
                         <UserPen />
                       </button>
 
+                      {/* Delete button */}
                       <button
                         type="button"
                         aria-label={`Supprimer ${account.name}`}
+                        disabled={account.role === "Admin"}
                         onClick={() => setSelectedAccount(account)}
+                        className="disabled:cursor-not-allowed disabled:opacity-30"
                       >
                         <Trash2 />
                       </button>
@@ -153,15 +125,15 @@ export function UserList() {
 
         <div className="mt-6 flex items-center justify-between font-body">
           <p className="text-sm font-bold">
-            Page {page} sur {totalPages}
+            Page {currentPage} sur {totalPages}
           </p>
 
           <div className="flex gap-3">
             <button
               type="button"
               aria-label="Page précédente"
-              onClick={() => setPage((p) => p - 1)}
-              disabled={page === 1}
+              onClick={() => setPage(currentPage - 1)}
+              disabled={currentPage === 1}
               className="rounded border-3 border-[#2A7A2E] p-2 disabled:opacity-50"
             >
               <ChevronLeft />
@@ -170,8 +142,8 @@ export function UserList() {
             <button
               type="button"
               aria-label="Page suivante"
-              onClick={() => setPage((p) => p + 1)}
-              disabled={page === totalPages || totalPages === 0}
+              onClick={() => setPage(currentPage + 1)}
+              disabled={currentPage === totalPages || totalPages === 0}
               className="rounded border-3 border-[#2A7A2E] p-2 disabled:opacity-50"
             >
               <ChevronRight />

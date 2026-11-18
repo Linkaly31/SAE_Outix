@@ -1,6 +1,6 @@
-
 "use client"
 
+import { useState } from "react"
 import { Trash2 } from "lucide-react"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -8,19 +8,41 @@ import type { Account } from "@/components/administration/userList"
 
 const roleVariants = {
   Admin: "admin",
-  Professeur: "teacher",
+  Professeur: "professor",
   Visiteur: "visitor",
 } as const
 
 type DeleteAccountModalProps = {
   account: Account | null
   onClose: () => void
-  onConfirm: (account: Account) => void
+  onConfirm: (account: Account) => Promise<void>
 }
 
 export function DeleteAccountModal({ account, onClose, onConfirm }: DeleteAccountModalProps) {
+  const [error, setError] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  function handleClose() {
+    setError("")
+    onClose()
+  }
+
+  async function handleConfirm(target: Account) {
+    setError("")
+    setIsSubmitting(true)
+
+    try {
+      await onConfirm(target)
+      handleClose()
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Une erreur est survenue. Veuillez réessayer.")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
-    <Dialog open={!!account} onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={!!account} onOpenChange={(open) => !open && handleClose()}>
       <DialogContent className="w-[95vw] max-w-2xl rounded-[24px] p-5 sm:max-w-xl sm:px-12 sm:py-8" showCloseButton={false}>
         {account && (
           <div className="flex flex-col items-center gap-4 text-center sm:gap-6">
@@ -52,13 +74,19 @@ export function DeleteAccountModal({ account, onClose, onConfirm }: DeleteAccoun
               </Button>
             </div>
 
+            {error && (
+              <p role="alert" className="font-body text-sm font-bold text-red-500">
+                {error}
+              </p>
+            )}
+
             {/* Action buttons */}
             <div className="flex w-full justify-center gap-3 pt-2 sm:gap-5">
-              <Button variant="discreet" onClick={onClose} className="w-28 shrink-0 text-sm sm:w-40 sm:text-base">
+              <Button variant="discreet" onClick={handleClose} className="w-28 shrink-0 text-sm sm:w-40 sm:text-base">
                 Fermer
               </Button>
 
-              <Button variant="delete" onClick={() => onConfirm(account)} className="w-28 shrink-0 text-sm sm:w-40 sm:text-base">
+              <Button variant="delete" disabled={isSubmitting} onClick={() => handleConfirm(account)} className="w-28 shrink-0 text-sm sm:w-40 sm:text-base">
                 <Trash2 className="size-4" />
                 Supprimer
               </Button>

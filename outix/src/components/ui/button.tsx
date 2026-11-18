@@ -70,7 +70,7 @@ const buttonVariants = cva(
           "bg-[#1060BC] text-white",
           "font-button font-bold text-xs sm:text-sm lg:text-base",
         ],
-        teacher: [
+        professor: [
           "bg-[#2A7A2E] text-white",
           "font-button font-bold text-xs sm:text-sm lg:text-base",
         ],

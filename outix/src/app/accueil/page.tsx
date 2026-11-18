@@ -1,3 +1,5 @@
+"use client"
+
 import { Header } from "@/components/headers/header";
 import { NavInfo } from "@/components/nav-info/navInfo";
 import { StackingContainer } from "@/components/ui/stackingContainer";
@@ -5,6 +7,7 @@ import { StatCard } from "@/components/ui/statCard";
 import { Button } from "@/components/ui/button";
 import { Book, Calendar, School, Star, ArrowRight, Library, Puzzle } from "lucide-react";
 import Link from "next/link";
+import { authClient } from "@/lib/auth/auth-client"
 
 // Temporary data
 const followedClasses = [
@@ -13,11 +16,12 @@ const followedClasses = [
 ];
 
 export default function HomePage() {
+  const { data: session } = authClient.useSession()
   return (
     <main className="min-h-screen bg-[#F9F9F4]">
       <Header />
       <NavInfo
-        title="Bonjour, M. {Nom}"
+        title={`Bonjour ${session?.user.name ?? ""}`}
         subtitle="Voici votre journée et vos classes"
 
         buttons={[

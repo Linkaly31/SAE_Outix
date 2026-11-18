@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from "react"
@@ -33,6 +32,8 @@ type CreateAccountModalProps = {
 export function CreateAccountModal({ open, onClose, onSubmit }: CreateAccountModalProps) {
   const [form, setForm] = useState(EMPTY_FORM)
   const [success, setSuccess] = useState(false)
+  const [error, setError] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const isValid = Object.values(form).every(
     (value) => value.trim() !== ""
@@ -42,11 +43,21 @@ export function CreateAccountModal({ open, onClose, onSubmit }: CreateAccountMod
     onClose()
     setForm(EMPTY_FORM)
     setSuccess(false)
+    setError("")
   }
 
   async function handleSubmit() {
-    await onSubmit(form)
-    setSuccess(true)
+    setError("")
+    setIsSubmitting(true)
+
+    try {
+      await onSubmit(form)
+      setSuccess(true)
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Une erreur est survenue. Veuillez réessayer.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -112,10 +123,16 @@ export function CreateAccountModal({ open, onClose, onSubmit }: CreateAccountMod
               </div>
             </div>
 
+            {error && (
+              <p role="alert" className="text-center font-body font-bold text-sm text-red-500">
+                {error}
+              </p>
+            )}
+
             <Button
               variant="primary"
               className="w-full"
-              disabled={!isValid}
+              disabled={!isValid || isSubmitting}
               onClick={handleSubmit}
             >
               Créer le compte

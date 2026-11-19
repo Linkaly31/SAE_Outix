@@ -1,5 +1,5 @@
-
 import type { ComponentProps } from "react"
+import { SearchX } from "lucide-react"
 import { cn } from "cn"
 import Breadcrumbs from "./breadcrumbs"
 import { Button, type ButtonProps } from "../ui/button"
@@ -18,16 +18,18 @@ type Props = {
   buttons?: Array<NavInfoButton>
   stepper?: ComponentProps<typeof NavStepper>
   className?: string
+  showNoResults?: boolean
 }
 
 function NavInfo({
-  breadcrumbItems,
+  breadcrumbItems = [],
   title,
   subtitle,
   input,
   stepper,
-  buttons,
+  buttons = [],
   className,
+  showNoResults = false,
 }: Props) {
   return (
     <div
@@ -38,7 +40,7 @@ function NavInfo({
     >
       {/* Left column */}
       <div className="flex min-w-0 flex-col md:col-start-1 md:row-start-1">
-        {breadcrumbItems && breadcrumbItems.length > 0 && (
+        {breadcrumbItems.length > 0 && (
           <Breadcrumbs items={breadcrumbItems} />
         )}
 
@@ -59,21 +61,37 @@ function NavInfo({
             <Input {...input} />
           </div>
         )}
+
+        {showNoResults && (
+          <div className="mt-4 flex items-center gap-3 text-white">
+            <SearchX className="size-10 shrink-0" />
+
+            <div className="flex flex-col">
+              <span className="font-body text-base font-semibold">
+                Aucun résultat trouvé
+              </span>
+
+              <span className="font-body text-sm text-white/80">
+                Essayez avec d'autres mots-clés.
+              </span>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Right column */}
-      {buttons && buttons.length > 0 && (
+      {buttons.length > 0 && (
         <div className="flex flex-row flex-wrap gap-3 md:col-start-2 md:row-start-1 md:flex-col md:gap-5">
           {buttons.map(({ label, className: buttonClassName, ...button }, index) => (
-            <Button
-              key={`${label}-${index}`}
-              variant="accent"
-              {...button}
-              className={cn("w-auto md:w-full", buttonClassName)}
-            >
-              {label}
-            </Button>
-          ))}
+              <Button
+                key={`${label}-${index}`}
+                variant="accent"
+                {...button}
+                className={cn("w-auto md:w-full", buttonClassName)}
+              >
+                {label}
+              </Button>
+            ))}
         </div>
       )}
 

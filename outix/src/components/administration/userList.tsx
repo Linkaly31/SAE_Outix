@@ -3,10 +3,11 @@
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Search, Trash2, UserPen, ChevronLeft, ChevronRight } from "lucide-react"
+import { Search, SearchX, Trash2, UserPen, ChevronLeft, ChevronRight } from "lucide-react"
 import { DeleteAccountModal } from "@/components/administration/modals/deleteAccountModal"
 import { ModifyAccountModal } from "@/components/administration/modals/modifyAccountModal"
 import { deleteAccount, updateAccount } from "@/lib/accounts"
+import { matchesSearch } from "@/lib/search";
 
 const ACCOUNTS_PER_PAGE = 10
 
@@ -32,13 +33,21 @@ export function UserList({ accounts, onChanged }: UserListProps) {
   const [selectedAccount, setSelectedAccount] = useState<Account | null>(null)
   const [editingAccount, setEditingAccount] = useState<Account | null>(null)
   const [page, setPage] = useState(1)
+  const [search, setSearch] = useState("")
 
-  const totalPages = Math.ceil(accounts.length / ACCOUNTS_PER_PAGE)
+  const filteredAccounts = accounts.filter((account) =>
+    matchesSearch(search, account.name, account.username, account.role)
+  )
+
+  const totalPages = Math.max(
+    Math.ceil(filteredAccounts.length / ACCOUNTS_PER_PAGE),
+    1
+  )
 
   // Stays valid when the last account of a page is deleted
-  const currentPage = Math.min(page, Math.max(totalPages, 1))
+  const currentPage = Math.min(page, totalPages)
   const start = (currentPage - 1) * ACCOUNTS_PER_PAGE
-  const pageAccounts = accounts.slice(start, start + ACCOUNTS_PER_PAGE)
+  const pageAccounts = filteredAccounts.slice(start, start + ACCOUNTS_PER_PAGE)
 
   async function handleDelete(account: Account) {
     await deleteAccount(account.id)
@@ -59,6 +68,11 @@ export function UserList({ accounts, onChanged }: UserListProps) {
           placeholder="Rechercher un identifiant ou un nom"
           aria-label="Rechercher"
           className="h-11"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value)
+            setPage(1)
+          }}
         />
 
         <div className="mt-6">
@@ -72,7 +86,21 @@ export function UserList({ accounts, onChanged }: UserListProps) {
             </thead>
 
             <tbody>
-              {/* Below md, each row is a grid: user on top, role and actions below */}
+              {pageAccounts.length === 0 && (
+                <tr>
+                  <td colSpan={3} className="py-12">
+                    <div className="flex items-center justify-center gap-3 text-red-500">
+                      <SearchX className="size-7 shrink-0" />
+
+                      <span className="font-body text-base">
+                        Aucun utilisateur trouvé
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              )}
+
+              {/* Below md, each row is a grid */}
               {pageAccounts.map((account) => (
                 <tr
                   key={account.id}
@@ -143,7 +171,7 @@ export function UserList({ accounts, onChanged }: UserListProps) {
               type="button"
               aria-label="Page suivante"
               onClick={() => setPage(currentPage + 1)}
-              disabled={currentPage === totalPages || totalPages === 0}
+              disabled={currentPage === totalPages}
               className="rounded border-3 border-[#2A7A2E] p-2 disabled:opacity-50"
             >
               <ChevronRight />

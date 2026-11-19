@@ -1,9 +1,15 @@
+"use client"
+
 import { Header } from "@/components/headers/header";
 import { NavInfo } from "@/components/nav-info/navInfo";
 import { StackingContainer } from "@/components/ui/stackingContainer";
 import { Button } from "@/components/ui/button";
 import { Search, Computer, Rocket, FlaskConical, Sigma, ChevronRight, ArrowRight, Star, X } from "lucide-react";
 import Link from "next/link";
+import { matchesSearch } from "@/lib/search";
+import { Suspense, useState } from "react";
+import type { ChangeEvent } from "react";
+import { useSearchParams } from "next/navigation";
 
 // Data to complete or change later
 const facultes = [
@@ -19,7 +25,18 @@ const favoriteSections = [
   { hierarchy: "Chapitre", element: "Diode de redressement Thyristor" },
 ];
 
-export default function IWIFacultyPage() {
+function IWIFacultyContent({initialSearch }: { initialSearch: string }) {
+  const [search, setSearch] = useState(initialSearch)
+
+  const filteredFacultes = facultes.filter(
+    ({ name, description }) =>
+      matchesSearch(search, name, description)
+  )
+
+  const noResults =
+    search.trim().length > 0 &&
+    filteredFacultes.length === 0
+
   return (
     <main className="min-h-screen bg-[#F9F9F4]">
       <Header />
@@ -30,38 +47,43 @@ export default function IWIFacultyPage() {
         ]}
         title="Facultés"
         subtitle="Parcourez les matières et accédez aux contenus pédagogiques."
-
+        showNoResults={noResults}
         input={{
-          icon: <Search />,
-          placeholder: "Rechercher une faculté, un département, un chapitre...",
+          icon: <Search className="h-5 w-5" />,
+          type: "search",
+          placeholder:
+            "Rechercher une faculté, un département, un chapitre...",
+          value: search,
+          onChange: (e: ChangeEvent<HTMLInputElement>) =>
+            setSearch(e.target.value),
         }}
       />
       <StackingContainer>
         <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-start gap-8 px-8 pb-10 lg:grid-cols-[2fr_1fr]">
-          
+
           {/* Faculty cards */}
           <ul className="grid min-w-0 grid-cols-1 gap-8 sm:grid-cols-2">
-            {facultes.map(({ icon: Icon, name, description, href }) => (
-              <li key={name} className="min-w-0">
-                <Link href={href} className="flex h-full min-h-[300px] flex-col gap-2 rounded-xl bg-white p-5">
-                  <div className="mb-2 flex justify-between text-style-green">
-                    <Icon className="size-12 md:size-15" />
-                    <ChevronRight size={30} />
-                  </div>
+            {filteredFacultes.map(({ icon: Icon, name, description, href }) => (
+                <li key={name} className="min-w-0">
+                  <Link href={href} className="flex h-full min-h-[300px] flex-col gap-2 rounded-xl bg-white p-5">
+                    <div className="mb-2 flex justify-between text-style-green">
+                      <Icon className="size-12 md:size-15" />
+                      <ChevronRight size={30} />
+                    </div>
 
-                  <div>
-                    <p className="mb-4 break-words font-title text-lg font-bold md:text-xl">{name}</p>
-                    <p className="break-words font-body text-sm md:text-base">{description}</p>
-                  </div>
+                    <div>
+                      <p className="mb-4 break-words font-title text-lg font-bold md:text-xl">{name}</p>
+                      <p className="break-words font-body text-sm md:text-base">{description}</p>
+                    </div>
 
-                  <p className="mt-auto flex items-center gap-2 font-body border-b border-current pb-0.1 w-fit text-style-green">
-                    Ouvrir <ArrowRight className="size-4" />
-                  </p>
-                </Link>
-              </li>
-            ))}
+                    <p className="mt-auto flex items-center gap-2 font-body border-b border-current pb-0.1 w-fit text-style-green">
+                      Ouvrir <ArrowRight className="size-4" />
+                    </p>
+                  </Link>
+                </li>
+              ))}
           </ul>
-          
+
           {/* Favorite elements + contribution button */}
           <div className="flex min-w-0 flex-col gap-10">
             <div className="rounded-xl bg-white p-5">
@@ -96,5 +118,21 @@ export default function IWIFacultyPage() {
         </div>
       </StackingContainer>
     </main>
-  );
+  )
+}
+
+function IWIFacultyWithUrlSearch() {
+  const search = useSearchParams().get("q") ?? ""
+
+  return (
+    <IWIFacultyContent key={search} initialSearch={search} />
+  )
+}
+
+export default function IWIFacultyPage() {
+  return (
+    <Suspense fallback={<main className="min-h-screen bg-[#F9F9F4]" />}>
+      <IWIFacultyWithUrlSearch />
+    </Suspense>
+  )
 }

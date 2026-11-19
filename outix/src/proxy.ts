@@ -9,9 +9,6 @@ export function proxy(request: NextRequest) {
   if (!hasSession && !isLoginPage) {
     return NextResponse.redirect(new URL("/connexion", request.url));
   }
-  if (hasSession && isLoginPage) {
-    return NextResponse.redirect(new URL("/accueil", request.url));
-  }
   return NextResponse.next();
 }
 

@@ -1,20 +1,15 @@
+import { cache } from "react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth/auth";
 
-import { auth } from "./auth";
-
-export async function getSession() {
-  return auth.api.getSession({ headers: await headers() });
-}
+// Cached so several calls in the same request hit the database once
+export const getSession = cache(async () =>
+  auth.api.getSession({ headers: await headers() })
+);
 
 export async function requireSession() {
   const session = await getSession();
   if (!session) redirect("/connexion");
-  return session;
-}
-
-export async function requireAdmin() {
-  const session = await requireSession();
-  if (session.user.role !== "admin") redirect("/accueil");
   return session;
 }

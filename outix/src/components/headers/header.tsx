@@ -19,7 +19,6 @@ const navLinkClass = "flex shrink-0 items-center gap-2 rounded-full px-3 py-2 fo
 
 const avatarClass = "flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#2A7A2E]/30 font-body text-lg font-semibold text-[#2A7A2E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2A7A2E] focus-visible:ring-offset-2"
 
-const searchInputClass = "h-11 rounded-xl bg-[#EEEEEE] pl-10 pr-4 text-black"
 
 const menuItemClass = "flex cursor-pointer items-center gap-2 whitespace-nowrap font-body text-sm sm:gap-3 sm:py-2 sm:text-base lg:py-2.5 lg:text-lg"
 
@@ -77,14 +76,18 @@ function ProfileButton() {
 }
 
 function SearchBar() {
+  const [search, setSearch] = useState("")
+
   return (
     <div className="relative min-w-0 flex-1">
-      <Search className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-black" />
       <Input
         type="search"
         placeholder="Rechercher..."
         aria-label="Rechercher"
-        className={searchInputClass}
+        icon={<Search className="h-5 w-5" />}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="h-11 rounded-xl bg-[#EEEEEE] pl-10 pr-10 text-black"
       />
     </div>
   )
@@ -107,10 +110,10 @@ export function Header() {
           className="flex min-w-0 flex-1 items-center justify-start gap-4 xl:gap-10"
         >
           {navItems.map(({ href, label, Icon }) => (
-            <a key={href} href={href} className={navLinkClass}>
+            <Link key={href} href={href} className={navLinkClass}>
               <Icon className="h-5 w-5" />
               <span>{label}</span>
-            </a>
+            </Link>
           ))}
 
           <div className="relative ml-auto min-w-32 max-w-sm flex-1">
@@ -158,7 +161,7 @@ export function Header() {
             className="flex flex-col gap-1 border-t border-gray-200 pt-2"
           >
             {navItems.map(({ href, label, Icon }) => (
-              <a
+              <Link
                 key={href}
                 href={href}
                 onClick={() => setMenuOpen(false)}
@@ -166,7 +169,7 @@ export function Header() {
               >
                 <Icon className="h-5 w-5 shrink-0" />
                 <span>{label}</span>
-              </a>
+              </Link>
             ))}
           </nav>
         )}

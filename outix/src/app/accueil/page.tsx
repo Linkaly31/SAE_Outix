@@ -15,6 +15,12 @@ const followedClasses = [
   { name: "Classe de 2nde B", detail: "Loi d'Ohm - 87% d'apprentissage de la spirale" },
 ];
 
+const Subtitles: Record<string, string> = {
+  admin: "Gérez les comptes et suivez l'activité de la plateforme",
+  professor: "Voici votre journée et vos classes",
+  visitor: "Découvrez les cours et les ressources de la plateforme",
+};
+
 export default function HomePage() {
   const { data: session } = authClient.useSession()
   return (
@@ -22,7 +28,7 @@ export default function HomePage() {
       <Header />
       <NavInfo
         title={`Bonjour ${session?.user.name ?? ""}`}
-        subtitle="Voici votre journée et vos classes"
+        subtitle={Subtitles[session?.user.role ?? ""] ?? Subtitles.visitor}
 
         buttons={[
           { icon: <Book />, label: "Créer un cours"}

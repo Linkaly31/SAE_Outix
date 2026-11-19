@@ -29,11 +29,6 @@ export default function IWIDepartmentPage() {
         ]}
         title="Départements"
         subtitle="Retrouvez les départements et accédez aux contenus pédagogiques."
-
-        input={{
-          icon: <Search />,
-          placeholder: "Rechercher une faculté, un département, un chapitre...",
-        }}
       />
       <StackingContainer>
         <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-start gap-8 px-8 pb-10 lg:grid-cols-[2fr_1fr]">

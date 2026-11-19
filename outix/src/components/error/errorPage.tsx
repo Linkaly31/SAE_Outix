@@ -1,18 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FileQuestion, Lock, ServerCrash, ShieldAlert, type LucideIcon } from "lucide-react";
+import { FileQuestion, ServerCrash, ShieldAlert, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export type ErrorType = "non-autorise" | "interdit" | "introuvable" | "serveur";
+export type ErrorType = "interdit" | "introuvable" | "serveur";
 
 const ERRORS: Record<ErrorType, { icon: LucideIcon; code: string; title: string; message: string }> = {
-  "non-autorise": {
-    icon: Lock,
-    code: "401",
-    title: "Connexion requise",
-    message: "Vous devez être connecté pour accéder à cette page.",
-  },
   interdit: {
     icon: ShieldAlert,
     code: "403",

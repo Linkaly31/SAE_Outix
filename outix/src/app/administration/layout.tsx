@@ -1,6 +1,11 @@
-import { requireAdmin } from "@/lib/auth/session";
+import ErrorPage from "@/components/error/errorPage";
+import { requireSession } from "@/lib/auth/session";
 
 export default async function AdministrationLayout({ children }: { children: React.ReactNode }) {
-  await requireAdmin();
+  const session = await requireSession();
+
+  if (session.user.role !== "admin") {
+    return <ErrorPage type="interdit" />;
+  }
   return children;
 }

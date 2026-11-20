@@ -145,37 +145,40 @@ export const department = mysqlTable('department', {
 });
 
 // Courses, Modules, Chapters and Themes
-export const course = mysqlTable('course', {
+export const theme = mysqlTable('theme', {
   id: int().primaryKey().autoincrement(),
   name: varchar({ length: 100 }).notNull(),
 
-  facultyId: int().references(() => faculty.id, { onDelete: 'set null' }),
+  departmentId: int()
+    .notNull()
+    .references(() => department.id, { onDelete: 'cascade' }),
+});
+
+export const chapter = mysqlTable('chapter', {
+  id: int().primaryKey().autoincrement(),
+  name: varchar({ length: 100 }).notNull(),
+
+  themeId: int()
+    .notNull()
+    .references(() => theme.id, { onDelete: 'cascade' }),
 });
 
 export const courseModule = mysqlTable('courseModule', {
   id: int().primaryKey().autoincrement(),
   name: varchar({ length: 100 }).notNull(),
 
-  courseId: int()
-    .notNull()
-    .references(() => course.id, { onDelete: 'cascade' }),
-});
-
-export const chapter = mysqlTable('chapter', {
-  id: int().primaryKey().autoincrement(),
-  name: varchar({ length: 100 }).notNull(),
-  moduleId: int()
-    .notNull()
-    .references(() => courseModule.id, { onDelete: 'cascade' }),
-});
-
-export const theme = mysqlTable('theme', {
-  id: int().primaryKey().autoincrement(),
-  name: varchar({ length: 100 }).notNull(),
-
   chapterId: int()
     .notNull()
     .references(() => chapter.id, { onDelete: 'cascade' }),
+});
+
+export const course = mysqlTable('course', {
+  id: int().primaryKey().autoincrement(),
+  name: varchar({ length: 100 }).notNull(),
+
+  moduleId: int()
+    .notNull()
+    .references(() => courseModule.id, { onDelete: 'cascade' }),
 });
 
 // A module can have multiple prerequisite modules
@@ -203,9 +206,13 @@ export const courseElement = mysqlTable('courseElement', {
   courseId: int()
     .notNull()
     .references(() => course.id, { onDelete: 'cascade' }),
+
+  // Kept when the author's account is deleted (authorId becomes null)
   authorId: varchar({ length: 36 })
-    .notNull()
-    .references(() => user.id),
+    .references(() => user.id, { onDelete: 'set null' }),
+  // Author's name copied at creation, so the trace remains after account deletion
+  authorName: varchar({ length: 255 }).notNull(),
+
   createdAt: timestamp().defaultNow().notNull(),
 });
 
@@ -273,7 +280,7 @@ export const question = mysqlTable(
 
     moduleId: int()
       .notNull()
-      .references(() => courseModule.id),
+      .references(() => courseModule.id, { onDelete: 'cascade' }),
 
     statement: text().notNull(),
     media: varchar({ length: 255 }),
